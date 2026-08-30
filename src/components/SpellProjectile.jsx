@@ -17,14 +17,16 @@ const GLOW_RADIUS = PROJECTILE_HIT_RADIUS * 1.1;
 const SpellProjectile = forwardRef(function SpellProjectile({ color = '#ff6a1a' }, ref) {
   return (
     <group ref={ref} visible={false}>
-      <pointLight color={color} intensity={4} distance={4} />
+      {/* Still no point light (that was the expensive part). Both meshes use unlit
+          meshBasicMaterial, so this glow shell is nearly free -- just a couple more
+          cheap triangles -- while making casts read better than a flat dot. */}
       <mesh>
-        <sphereGeometry args={[CORE_RADIUS, 12, 10]} />
-        <meshStandardMaterial color={color} emissive={color} emissiveIntensity={2.5} toneMapped={false} />
+        <sphereGeometry args={[CORE_RADIUS, 6, 6]} />
+        <meshBasicMaterial color={color} />
       </mesh>
       <mesh>
-        <sphereGeometry args={[GLOW_RADIUS, 12, 10]} />
-        <meshBasicMaterial color={color} transparent opacity={0.25} toneMapped={false} />
+        <sphereGeometry args={[GLOW_RADIUS, 6, 6]} />
+        <meshBasicMaterial color={color} transparent opacity={0.25} />
       </mesh>
     </group>
   );
