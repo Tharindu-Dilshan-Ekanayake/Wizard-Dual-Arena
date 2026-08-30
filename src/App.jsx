@@ -43,10 +43,10 @@ function DuelScene() {
   return (
     <>
       <Sky />
-      <ambientLight intensity={0.45} color="#ffdcb0" />
-      <directionalLight position={[-8, 12, -20]} intensity={1.1} color="#ffcf9c" castShadow={false} />
-      <pointLight position={[-3, 2.5, 4]} intensity={8} color="#ff9a4d" distance={12} />
-      <pointLight position={[3, 2.5, 4]} intensity={8} color="#8ecbff" distance={12} />
+      {/* Balanced quality: ambient + one shadowless directional light (adds depth/highlights
+          without shadow-map cost). Still no point lights -- those were the expensive ones. */}
+      <ambientLight intensity={0.5} color="#ffdcb0" />
+      <directionalLight position={[-8, 12, -20]} intensity={0.6} color="#ffcf9c" castShadow={false} />
 
       <Suspense fallback={null}>
         <Ground />
@@ -78,7 +78,20 @@ function GameView() {
 
   return (
     <div className="w-full h-full relative">
-      <Canvas camera={{ position: [0, 2.2, 8], fov: 62 }} dpr={[1, 1.5]}>
+      <Canvas 
+        camera={{ position: [0, 2.2, 8], fov: 62 }} 
+        dpr={window.devicePixelRatio > 2 ? 1 : 0.65}
+        gl={{
+          antialias: false,
+          powerPreference: 'low-power',
+          precision: 'mediump',
+          logarithmicDepthBuffer: false,
+          alpha: true,
+          stencil: false,
+          depth: true
+        }}
+        performance={{ min: 0.25, max: 0.5 }}
+      >
         <DuelScene />
       </Canvas>
       <HUD playerId={playerId} />

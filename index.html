@@ -2,8 +2,15 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="description" content="Wizard Duel Arena - CPU-optimized web game" />
     <title>Wizard Duel Arena</title>
+    <!-- CPU-only: Preload critical models to reduce initial load stutter -->
+    <link rel="preload" href="/models/harry/character.glb" as="fetch" crossorigin />
+    <link rel="preload" href="/models/malfoi/character.glb" as="fetch" crossorigin />
+    <link rel="preload" href="/models/background/ground_tile.glb" as="fetch" crossorigin />
+    <!-- DNS prefetch for external resources -->
+    <link rel="dns-prefetch" href="https://www.gstatic.com" />
   </head>
   <body>
     <div id="root"></div>
